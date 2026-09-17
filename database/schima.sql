@@ -1,4 +1,3 @@
-
 CREATE TABLE facilities (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -7,7 +6,6 @@ CREATE TABLE facilities (
     erp_capacity INTEGER NOT NULL CHECK (erp_capacity > 0)
 );
 
-
 CREATE TABLE clubs (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -15,7 +13,6 @@ CREATE TABLE clubs (
     contact_email VARCHAR(150),
     contact_phone VARCHAR(30)
 );
-
 
 CREATE TABLE families (
     id SERIAL PRIMARY KEY,
@@ -32,7 +29,6 @@ CREATE TABLE members (
     family_id INTEGER,
     CONSTRAINT fk_members_family FOREIGN KEY (family_id) REFERENCES families (id) ON DELETE SET NULL
 );
-
 
 CREATE TABLE activities (
     id SERIAL PRIMARY KEY,
@@ -69,7 +65,6 @@ CREATE TABLE activities (
     )
 );
 
-
 CREATE TABLE registrations (
     id SERIAL PRIMARY KEY,
     member_id INTEGER NOT NULL,
@@ -85,7 +80,6 @@ CREATE TABLE registrations (
     CONSTRAINT uq_member_activity UNIQUE (member_id, activity_id)
 );
 
-
 CREATE TABLE waiting_list (
     id SERIAL PRIMARY KEY,
     member_id INTEGER NOT NULL,
@@ -98,7 +92,6 @@ CREATE TABLE waiting_list (
     CONSTRAINT chk_waiting_status CHECK (status IN ('waiting', 'promoted', 'cancelled')),
     CONSTRAINT uq_waiting_member_activity UNIQUE (member_id, activity_id)
 );
-
 
 -- Facilities
 CREATE INDEX idx_facilities_type ON facilities (type);
@@ -130,8 +123,11 @@ CREATE INDEX idx_waiting_activity_position ON waiting_list (activity_id, positio
 
 CREATE INDEX idx_waiting_status ON waiting_list (status);
 
-
-SELECT table_name
-FROM information_schema.tables
-WHERE table_schema = 'public'
-ORDER BY table_name;
+SELECT
+    table_name
+FROM
+    information_schema.tables
+WHERE
+    table_schema = 'public'
+ORDER BY
+    table_name;
