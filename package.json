@@ -1,0 +1,26 @@
+{
+  "name": "sconnect-pro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khalil-elqaddabi/Sconnect.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khalil-elqaddabi/Sconnect/issues"
+  },
+  "homepage": "https://github.com/khalil-elqaddabi/Sconnect#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "find-my-way": "^9.9.0",
+    "pg": "^8.23.0"
+  }
+}
