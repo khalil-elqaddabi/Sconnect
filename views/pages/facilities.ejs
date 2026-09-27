@@ -1,0 +1,218 @@
+<%- include("../partials/header") %>
+<%- include("../partials/navbar") %>
+<%- include("../partials/alerts") %>
+
+<main>
+
+    <h1>Facilities</h1>
+
+    <!-- Add Facility -->
+    <section class="card">
+
+        <h2>Add Facility</h2>
+
+        <form action="/facilities" method="POST">
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Facility name"
+                required
+            >
+
+            <input
+                type="text"
+                name="type"
+                placeholder="Facility type"
+                required
+            >
+
+            <input
+                type="text"
+                name="address"
+                placeholder="Address"
+                required
+            >
+
+            <input
+                type="number"
+                name="erp_capacity"
+                placeholder="ERP capacity"
+                min="1"
+                required
+            >
+
+            <button type="submit">
+                Add Facility
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- Facilities List -->
+    <section>
+
+        <h2>Facilities List</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Address</th>
+                    <th>ERP Capacity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <% facilities.forEach(facility => { %>
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                <%= facility.name %>
+                            </strong>
+                        </td>
+
+                        <td>
+                            <%= facility.type %>
+                        </td>
+
+                        <td>
+                            <%= facility.address %>
+                        </td>
+
+                        <td>
+                            <%= facility.erp_capacity %>
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <!-- Edit -->
+                                <details>
+
+    <summary>Edit</summary>
+
+    <form
+        action="/facilities/update"
+        method="POST"
+        class="edit-form"
+    >
+
+        <h3>Edit Facility</h3>
+
+        <input
+            type="hidden"
+            name="id"
+            value="<%= facility.id %>"
+        >
+
+        <label for="facility-name-<%= facility.id %>">
+            Name
+        </label>
+
+        <input
+            id="facility-name-<%= facility.id %>"
+            type="text"
+            name="name"
+            value="<%= facility.name %>"
+            required
+        >
+
+        <label for="facility-type-<%= facility.id %>">
+            Type
+        </label>
+
+        <input
+            id="facility-type-<%= facility.id %>"
+            type="text"
+            name="type"
+            value="<%= facility.type %>"
+            required
+        >
+
+        <label for="facility-address-<%= facility.id %>">
+            Address
+        </label>
+
+        <input
+            id="facility-address-<%= facility.id %>"
+            type="text"
+            name="address"
+            value="<%= facility.address %>"
+            required
+        >
+
+        <label for="facility-capacity-<%= facility.id %>">
+            ERP Capacity
+        </label>
+
+        <input
+            id="facility-capacity-<%= facility.id %>"
+            type="number"
+            name="erp_capacity"
+            value="<%= facility.erp_capacity %>"
+            min="1"
+            required
+        >
+<button
+    type="button"
+    class="cancel-btn"
+    onclick="this.closest('details').removeAttribute('open')"
+>
+    Cancel
+</button>
+        <button type="submit">
+            Save Changes
+        </button>
+
+    </form>
+
+</details>
+
+
+                                <!-- Delete -->
+                                <form
+                                    action="/facilities/delete"
+                                    method="POST"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="<%= facility.id %>"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                    >
+                                        Delete
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>

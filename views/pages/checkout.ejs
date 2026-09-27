@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <%- include("../partials/header") %>
+    <%- include("../partials/navbar") %>
+
+    <main>
+
+        <h1>Checkout</h1>
+
+        <!-- Registration Form -->
+        <section class="card">
+
+            <h2>Registration</h2>
+
+            <form action="/checkout" method="POST">
+
+                <!-- Member -->
+                <label for="member_id">Member</label>
+
+                <select id="member_id" name="member_id" required>
+                    <option value="">Select a member</option>
+
+                    <% members.forEach(memberItem => { %>
+
+                        <option
+                            value="<%= memberItem.id %>"
+                            <%= member && member.id == memberItem.id ? "selected" : "" %>
+                        >
+                            <%= memberItem.first_name %>
+                            <%= memberItem.last_name %>
+                        </option>
+
+                    <% }) %>
+
+                </select>
+
+
+                <!-- Activity -->
+                <label for="activity_id">Activity</label>
+
+                <select id="activity_id" name="activity_id" required>
+
+                    <option value="">Select an activity</option>
+
+                    <% activities.forEach(activityItem => { %>
+
+                        <option
+                            value="<%= activityItem.id %>"
+                            data-price="<%= activityItem.price %>"
+                            <%= activity && activity.id == activityItem.id ? "selected" : "" %>
+                        >
+                            <%= activityItem.name %>
+                            -
+                            <%= Number(activityItem.price).toFixed(2) %> €
+                        </option>
+
+                    <% }) %>
+
+                </select>
+
+
+                <!-- Dynamic Price -->
+                <p id="dynamic-price">
+                    Price: 0.00 €
+                </p>
+
+
+                <!-- Resident -->
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="isResident"
+                        value="true"
+                        <%= isResident ? "checked" : "" %>
+                    >
+
+                    Resident
+
+                </label>
+
+
+                <!-- Pass'Sport -->
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="hasPassSport"
+                        value="true"
+                        <%= hasPassSport ? "checked" : "" %>
+                    >
+
+                    Pass'Sport
+
+                </label>
+
+
+                <button type="submit">
+                    Calculate Price
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- Price Summary -->
+        <% if (pricing) { %>
+
+            <section class="card">
+
+                <h2>Price Summary</h2>
+
+                <table>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Base Price</td>
+                            <td>
+                                <%= pricing.basePrice.toFixed(2) %> €
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Initial Price</td>
+                            <td>
+                                <%= pricing.initialPrice.toFixed(2) %> €
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Family Discount</td>
+                            <td>
+                                <%= (pricing.familyDiscount * 100).toFixed(0) %> %
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Family Quotient Discount</td>
+                            <td>
+                                <%= (pricing.quotientDiscount * 100).toFixed(0) %> %
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Pass'Sport Discount</td>
+                            <td>
+                                <%= pricing.passSportDiscount.toFixed(2) %> €
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <th>Final Price</th>
+
+                            <th>
+                                <%= pricing.finalPrice.toFixed(2) %> €
+                            </th>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+
+            <!-- Payment Schedule -->
+            <section class="card">
+
+                <h2>Payment Schedule</h2>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Payment</th>
+                            <th>Amount</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Payment 1 - 40%</td>
+
+                            <td>
+                                <%= pricing.paymentSchedule.payment1.toFixed(2) %> €
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Payment 2 - 30%</td>
+
+                            <td>
+                                <%= pricing.paymentSchedule.payment2.toFixed(2) %> €
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Payment 3 - 30%</td>
+
+                            <td>
+                                <%= pricing.paymentSchedule.payment3.toFixed(2) %> €
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        <% } %>
+
+    </main>
+
+    <%- include("../partials/footer") %>
+
+
+    <!-- Dynamic Pricing -->
+    <script src="/js/dynamic-pricing.js"></script>
+
+</body>
+</html>

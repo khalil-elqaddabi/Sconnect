@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title><%= title %></title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+</head>
+
+<body>
+
+    <%- include("../partials/header") %>
+    <%- include("../partials/navbar") %>
+
+    <main>
+
+        <h1>Registrations</h1>
+
+        <section class="card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Member</th>
+                        <th>Activity</th>
+                        <th>Final Price</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <% if (registrations.length === 0) { %>
+
+                        <tr>
+                            <td colspan="6">
+                                No registrations found.
+                            </td>
+                        </tr>
+
+                    <% } %>
+
+
+                    <% registrations.forEach(registration => { %>
+
+                        <tr>
+
+                            <td>
+                                <%= registration.id %>
+                            </td>
+
+                            <td>
+                                <%= registration.first_name %>
+                                <%= registration.last_name %>
+                            </td>
+
+                            <td>
+                                <%= registration.activity_name %>
+                            </td>
+
+                            <td>
+                                <%= Number(registration.final_price).toFixed(2) %> €
+                            </td>
+
+                            <td>
+                                <%= registration.status %>
+                            </td>
+
+                            <td>
+
+                                <% if (
+                                    registration.status === "confirmed" ||
+                                    registration.status === "medical_non_compliant"
+                                ) { %>
+
+                                    <form
+                                        action="/registrations/cancel"
+                                        method="POST"
+                                        style="display: inline;"
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="registration_id"
+                                            value="<%= registration.id %>"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            onclick="return confirm('Cancel this registration?')"
+                                        >
+                                            Cancel
+                                        </button>
+
+                                    </form>
+
+                                <% } else { %>
+
+                                    <span>
+                                        —
+                                    </span>
+
+                                <% } %>
+
+                            </td>
+
+                        </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+    <%- include("../partials/footer") %>
+
+</body>
+
+</html>

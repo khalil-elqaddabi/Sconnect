@@ -1,0 +1,377 @@
+<%- include("../partials/header") %>
+<%- include("../partials/navbar") %>
+<%- include("../partials/alerts") %>
+
+<main>
+
+    <h1>Members</h1>
+
+
+    <!-- ================================
+         Add Member
+         ================================ -->
+
+    <section class="card">
+
+        <h2>Add Member</h2>
+
+        <form action="/members" method="POST">
+
+            <label for="member-first-name">
+                First Name
+            </label>
+
+            <input
+                id="member-first-name"
+                type="text"
+                name="first_name"
+                placeholder="First name"
+                required
+            >
+
+
+            <label for="member-last-name">
+                Last Name
+            </label>
+
+            <input
+                id="member-last-name"
+                type="text"
+                name="last_name"
+                placeholder="Last name"
+                required
+            >
+
+
+            <label for="member-birth-date">
+                Birth Date
+            </label>
+
+            <input
+                id="member-birth-date"
+                type="date"
+                name="birth_date"
+                required
+            >
+
+
+            <label for="member-medical">
+                Medical Certificate Valid Until
+            </label>
+
+            <input
+                id="member-medical"
+                type="date"
+                name="medical_certificate_valid_until"
+            >
+
+
+            <label for="member-family">
+                Family
+            </label>
+
+            <select
+                id="member-family"
+                name="family_id"
+            >
+
+                <option value="">
+                    No family
+                </option>
+
+                <% families.forEach(family => { %>
+
+                    <option value="<%= family.id %>">
+                        <%= family.name %>
+                    </option>
+
+                <% }) %>
+
+            </select>
+
+
+            <button type="submit">
+                Add Member
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- ================================
+         Members List
+         ================================ -->
+
+    <section>
+
+        <h2>Members List</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Birth Date</th>
+
+                    <th>Medical Certificate</th>
+
+                    <th>Family</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <% members.forEach(member => { %>
+
+                    <tr>
+
+                        <!-- Name -->
+
+                        <td>
+
+                            <strong>
+                                <%= member.first_name %>
+                                <%= member.last_name %>
+                            </strong>
+
+                        </td>
+
+
+                        <!-- Birth Date -->
+
+                        <td>
+                            <%= member.birth_date %>
+                        </td>
+
+
+                        <!-- Medical Certificate -->
+
+                        <td>
+
+                            <% if (member.medical_certificate_valid_until) { %>
+
+                                <%= member.medical_certificate_valid_until %>
+
+                            <% } else { %>
+
+                                Not provided
+
+                            <% } %>
+
+                        </td>
+
+
+                        <!-- Family -->
+
+                        <td>
+
+                            <% if (member.family_id) { %>
+
+                                <% const memberFamily = families.find(
+                                    family => family.id === member.family_id
+                                ); %>
+
+                                <%= memberFamily
+                                    ? memberFamily.name
+                                    : "Unknown family"
+                                %>
+
+                            <% } else { %>
+
+                                No family
+
+                            <% } %>
+
+                        </td>
+
+
+                        <!-- Actions -->
+
+                        <td>
+
+                            <div class="actions">
+
+
+                                <!-- ================================
+                                     Edit
+                                     ================================ -->
+
+                                <details>
+
+                                    <summary>
+                                        Edit
+                                    </summary>
+
+
+                                    <form
+                                        action="/members/update"
+                                        method="POST"
+                                        class="edit-form"
+                                    >
+
+                                        <h3>
+                                            Edit Member
+                                        </h3>
+
+
+                                        <input
+                                            type="hidden"
+                                            name="id"
+                                            value="<%= member.id %>"
+                                        >
+
+
+                                        <!-- First Name -->
+
+                                        <label>
+                                            First Name
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="first_name"
+                                            value="<%= member.first_name %>"
+                                            required
+                                        >
+
+
+                                        <!-- Last Name -->
+
+                                        <label>
+                                            Last Name
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="last_name"
+                                            value="<%= member.last_name %>"
+                                            required
+                                        >
+
+
+                                        <!-- Birth Date -->
+
+                                        <label>
+                                            Birth Date
+                                        </label>
+
+                                        <input
+                                            type="date"
+                                            name="birth_date"
+                                            value="<%= member.birth_date %>"
+                                            required
+                                        >
+
+
+                                        <!-- Medical Certificate -->
+
+                                        <label>
+                                            Medical Certificate Valid Until
+                                        </label>
+
+                                        <input
+                                            type="date"
+                                            name="medical_certificate_valid_until"
+                                            value="<%= member.medical_certificate_valid_until || '' %>"
+                                        >
+
+
+                                        <!-- Family -->
+
+                                        <label>
+                                            Family
+                                        </label>
+
+                                        <select name="family_id">
+
+                                            <option value="">
+                                                No family
+                                            </option>
+
+
+                                            <% families.forEach(family => { %>
+
+                                                <option
+                                                    value="<%= family.id %>"
+                                                    <%= member.family_id == family.id
+                                                        ? "selected"
+                                                        : ""
+                                                    %>
+                                                >
+                                                    <%= family.name %>
+                                                </option>
+
+                                            <% }) %>
+
+                                        </select>
+
+
+                                        <!-- Save -->
+
+                                        <button type="submit">
+                                            Save Changes
+                                        </button>
+
+
+                                        <!-- Cancel -->
+
+                                        <button
+                                            type="button"
+                                            class="cancel-btn"
+                                            onclick="this.closest('details').removeAttribute('open')"
+                                        >
+                                            Cancel
+                                        </button>
+
+                                    </form>
+
+                                </details>
+
+
+                                <!-- ================================
+                                     Delete
+                                     ================================ -->
+
+                                <form
+                                    action="/members/delete"
+                                    method="POST"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="<%= member.id %>"
+                                    >
+
+                                    <button type="submit">
+                                        Delete
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>

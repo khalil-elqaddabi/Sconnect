@@ -1,0 +1,302 @@
+<%- include("../partials/header") %>
+<%- include("../partials/navbar") %>
+<%- include("../partials/alerts") %>
+
+<main>
+
+    <h1>Activities</h1>
+
+    <!-- Add Activity -->
+
+    <section class="card">
+
+        <h2>Add Activity</h2>
+
+        <form action="/activities" method="POST">
+
+            <label for="activity-name">
+                Activity Name
+            </label>
+
+            <input
+                id="activity-name"
+                type="text"
+                name="name"
+                placeholder="Activity name"
+                required
+            >
+
+
+            <label for="activity-description">
+                Description
+            </label>
+
+            <textarea
+                id="activity-description"
+                name="description"
+                placeholder="Activity description"
+            ></textarea>
+
+
+            <label for="activity-facility">
+                Facility
+            </label>
+
+            <select
+                id="activity-facility"
+                name="facility_id"
+                required
+            >
+
+                <option value="">
+                    Select facility
+                </option>
+
+                <% facilities.forEach(facility => { %>
+
+                    <option value="<%= facility.id %>">
+                        <%= facility.name %>
+                    </option>
+
+                <% }) %>
+
+            </select>
+
+
+            <label for="activity-club">
+                Club
+            </label>
+
+            <select
+                id="activity-club"
+                name="club_id"
+                required
+            >
+
+                <option value="">
+                    Select club
+                </option>
+
+                <% clubs.forEach(club => { %>
+
+                    <option value="<%= club.id %>">
+                        <%= club.name %>
+                    </option>
+
+                <% }) %>
+
+            </select>
+
+
+            <label for="activity-capacity">
+                Maximum Capacity
+            </label>
+
+            <input
+                id="activity-capacity"
+                type="number"
+                name="max_capacity"
+                min="1"
+                placeholder="Maximum capacity"
+                required
+            >
+
+
+            <label for="activity-price">
+                Price
+            </label>
+
+            <input
+                id="activity-price"
+                type="number"
+                name="price"
+                min="0"
+                step="0.01"
+                placeholder="Price"
+                required
+            >
+
+
+            <label for="activity-age-min">
+                Minimum Age
+            </label>
+
+            <input
+                id="activity-age-min"
+                type="number"
+                name="age_min"
+                min="0"
+                placeholder="Minimum age"
+                required
+            >
+
+
+            <label for="activity-age-max">
+                Maximum Age
+            </label>
+
+            <input
+                id="activity-age-max"
+                type="number"
+                name="age_max"
+                min="0"
+                placeholder="Maximum age"
+                required
+            >
+
+
+            <label for="activity-day">
+                Day
+            </label>
+
+            <select
+                id="activity-day"
+                name="day_of_week"
+                required
+            >
+
+                <option value="">
+                    Select day
+                </option>
+
+                <option value="Monday">
+                    Monday
+                </option>
+
+                <option value="Tuesday">
+                    Tuesday
+                </option>
+
+                <option value="Wednesday">
+                    Wednesday
+                </option>
+
+                <option value="Thursday">
+                    Thursday
+                </option>
+
+                <option value="Friday">
+                    Friday
+                </option>
+
+                <option value="Saturday">
+                    Saturday
+                </option>
+
+                <option value="Sunday">
+                    Sunday
+                </option>
+
+            </select>
+
+
+            <label for="activity-start">
+                Start Time
+            </label>
+
+            <input
+                id="activity-start"
+                type="time"
+                name="start_time"
+                required
+            >
+
+
+            <label for="activity-end">
+                End Time
+            </label>
+
+            <input
+                id="activity-end"
+                type="time"
+                name="end_time"
+                required
+            >
+
+
+            <button type="submit">
+                Add Activity
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- Activities List -->
+
+    <section>
+
+        <h2>Activities List</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Facility</th>
+                    <th>Club</th>
+                    <th>Capacity</th>
+                    <th>Price</th>
+                    <th>Age</th>
+                    <th>Schedule</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <% activities.forEach(activity => { %>
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                <%= activity.name %>
+                            </strong>
+                        </td>
+
+                        <td>
+                            <%= activity.facility_id %>
+                        </td>
+
+                        <td>
+                            <%= activity.club_id %>
+                        </td>
+
+                        <td>
+                            <%= activity.max_capacity %>
+                        </td>
+
+                        <td>
+                            <%= activity.price %> €
+                        </td>
+
+                        <td>
+                            <%= activity.age_min %>
+                            -
+                            <%= activity.age_max %>
+                        </td>
+
+                        <td>
+                            <%= activity.day_of_week %>
+                            <br>
+                            <%= activity.start_time %>
+                            →
+                            <%= activity.end_time %>
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>

@@ -1,0 +1,198 @@
+<%- include("../partials/header") %>
+<%- include("../partials/navbar") %>
+<%- include("../partials/alerts") %>
+
+<main>
+
+    <h1>Clubs</h1>
+
+    <!-- Add Club -->
+
+    <section class="card">
+
+        <h2>Add Club</h2>
+
+        <form action="/clubs" method="POST">
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Club name"
+                required
+            >
+
+            <input
+                type="email"
+                name="contact_email"
+                placeholder="Email"
+                required
+            >
+
+            <input
+                type="text"
+                name="contact_phone"
+                placeholder="Phone"
+                required
+            >
+
+            <button type="submit">
+                Add Club
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- Clubs List -->
+
+    <section>
+
+        <h2>Clubs List</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <% clubs.forEach(club => { %>
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                <%= club.name %>
+                            </strong>
+                        </td>
+
+                        <td>
+                            <%= club.contact_email %>
+                        </td>
+
+                        <td>
+                            <%= club.contact_phone %>
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <!-- Edit -->
+
+                              <details>
+
+    <summary>Edit</summary>
+
+    <form
+        action="/clubs/update"
+        method="POST"
+        class="edit-form"
+    >
+
+        <h3>Edit Club</h3>
+
+        <input
+            type="hidden"
+            name="id"
+            value="<%= club.id %>"
+        >
+
+        <label for="club-name-<%= club.id %>">
+            Name
+        </label>
+
+        <input
+            id="club-name-<%= club.id %>"
+            type="text"
+            name="name"
+            value="<%= club.name %>"
+            required
+        >
+
+        <label for="club-email-<%= club.id %>">
+            Email
+        </label>
+
+        <input
+            id="club-email-<%= club.id %>"
+            type="email"
+            name="contact_email"
+            value="<%= club.contact_email %>"
+            required
+        >
+
+        <label for="club-phone-<%= club.id %>">
+            Phone
+        </label>
+
+        <input
+            id="club-phone-<%= club.id %>"
+            type="text"
+            name="contact_phone"
+            value="<%= club.contact_phone %>"
+            required
+        >
+
+        <button type="submit">
+            Save Changes
+        </button>
+
+        <button
+            type="button"
+            class="cancel-btn"
+            onclick="this.closest('details').removeAttribute('open')"
+        >
+            Cancel
+        </button>
+
+    </form>
+
+</details>
+
+
+                                <!-- Delete -->
+
+                                <form
+                                    action="/clubs/delete"
+                                    method="POST"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="<%= club.id %>"
+                                    >
+
+                                    <button type="submit">
+                                        Delete
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>

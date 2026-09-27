@@ -1,0 +1,80 @@
+<%- include("../partials/header") %>
+<%- include("../partials/navbar") %>
+
+<main>
+
+    <h1>Dashboard</h1>
+
+    <section class="dashboard-grid">
+
+        <div class="stat-card">
+            <h3>Total Revenue</h3>
+
+            <div class="value">
+                <%= totalRevenue.toFixed(2) %> €
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <h3>Total Activities</h3>
+
+            <div class="value">
+                <%= activities.length %>
+            </div>
+        </div>
+
+    </section>
+
+
+    <section>
+
+        <h2>Activity Occupancy</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Activity</th>
+                    <th>Capacity</th>
+                    <th>Registered</th>
+                    <th>Occupancy</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <% activities.forEach(activity => { %>
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                <%= activity.name %>
+                            </strong>
+                        </td>
+
+                        <td>
+                            <%= activity.max_capacity %>
+                        </td>
+
+                        <td>
+                            <%= activity.registered_members %>
+                        </td>
+
+                        <td>
+                            <%= activity.occupancy_percentage %>%
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
